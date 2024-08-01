@@ -81,7 +81,7 @@ Simply send me a photo, video, or gif to upload.
 
 Made with love by @indusBots</b>""",
         reply_markup=reply_markup,
-        parse_mode="html"
+        parse_mode="markdown"
     )
 
 @Tgraph.on_message(filters.command(["help"]))
@@ -104,7 +104,7 @@ Just send me a video, gif, or photo up to 5 MB.
 
 I'll upload it to Telegra.ph and give you the direct link.""",
         reply_markup=reply_markup,
-        parse_mode="html"
+        parse_mode="markdown"
     )
 
 @Tgraph.on_callback_query()
