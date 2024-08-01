@@ -22,15 +22,16 @@ Tgraph = Client(
 if not os.path.exists('./DOWNLOADS'):
     os.makedirs('./DOWNLOADS')
 
-async def upload_media(client, message, file_type, file_extension, size_limit=5242880):
-    if message.document and message.document.file_size > size_limit:
+async def upload_media(client, message, file_extension):
+    file_size_limit = 5242880  # 5 MB
+    if message.document and message.document.file_size > file_size_limit:
         await message.reply_text("Size should be less than 5 MB.")
         return
 
     msg = await message.reply_text("`Trying to download`")
     user_id = str(message.chat.id)
     file_path = f"./DOWNLOADS/{user_id}{file_extension}"
-    
+
     # Download media
     file_path = await client.download_media(message=message, file_name=file_path)
     await msg.edit_text("`Trying to upload.....`")
@@ -47,15 +48,15 @@ async def upload_media(client, message, file_type, file_extension, size_limit=52
 
 @Tgraph.on_message(filters.photo)
 async def upload_photo(client, message):
-    await upload_media(client, message, "photo", ".jpg")
+    await upload_media(client, message, ".jpg")
 
 @Tgraph.on_message(filters.animation)
 async def upload_gif(client, message):
-    await upload_media(client, message, "gif", ".mp4")
+    await upload_media(client, message, ".mp4")
 
 @Tgraph.on_message(filters.video)
 async def upload_video(client, message):
-    await upload_media(client, message, "video", ".mp4")
+    await upload_media(client, message, ".mp4")
 
 @Tgraph.on_message(filters.command(["start"]))
 async def start(client, message):
@@ -80,8 +81,7 @@ Simply send me a photo, video, or gif to upload.
 
 Made with love by @indusBots</b>""",
         reply_markup=reply_markup,
-        parse_mode="html",
-        reply_to_message_id=message.message_id
+        parse_mode="html"
     )
 
 @Tgraph.on_message(filters.command(["help"]))
@@ -104,8 +104,7 @@ Just send me a video, gif, or photo up to 5 MB.
 
 I'll upload it to Telegra.ph and give you the direct link.""",
         reply_markup=reply_markup,
-        parse_mode="html",
-        reply_to_message_id=message.message_id
+        parse_mode="html"
     )
 
 @Tgraph.on_callback_query()
